@@ -1,0 +1,27 @@
+{% extends "home/base.html" %}
+{% block header %}
+    <title>Delete ListItem</title>
+    <h1>Delete Grocery ListItem</h1>
+{% endblock %}
+
+{% block content %}
+            
+            <form  method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Enter Id to confirm Deletion</label>
+                    <input type="text" class="form-control" name="id" placeholder="Enter Id" />
+                </div>
+                
+                <div class="form-group">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <label class="text-danger" style="padding: 1%;">{{message}}</label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <a href=""></a><input type="submit" value="Delete" class="btn btn-danger">
+                </div>
+            </form>
+{% endblock %}

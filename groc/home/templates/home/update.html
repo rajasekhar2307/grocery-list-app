@@ -1,0 +1,46 @@
+{% extends "home/base.html" %}
+{% block header %}
+    <title>Update List</title>
+    <h1>Update Grocery List</h1>
+{% endblock %}
+
+{% block content %}
+            
+            <form  method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Id</label>
+                    <input type="text" class="form-control" name="id" placeholder="Enter Id" />
+                </div>
+                <div class="form-group">
+                    <label>Item name</label>
+                    <input type="text" class="form-control" name="name" placeholder="New name" />
+                </div>
+                <div class="form-group">
+                    <label>Item quantity</label>
+                    <input type="text" class="form-control" name="quantity" placeholder="New quantity" />
+                </div>
+                <div class="form-group">
+                    <label>Item status</label>
+                    <select name="status" class="form-control">
+                        <option value="0">PENDING</option>
+                        <option value="1" selected>BOUGHT</option>
+                        <option value="0">NOT AVAILABLE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="date" class="form-control" placeholder="new Date" >
+                </div>
+                <div class="form-group">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <label class="text-danger" style="padding: 1%;">{{message}}</label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <a href=""></a><input type="submit" value="Update" class="btn btn-danger">
+                </div>
+            </form>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "users/base.html" %}
+
+{% block header %}
+<title>Sign Up</title>
+<h1>Enter Your Details</h1>
+{% endblock %}
+
+{% block content %}
+    <form action="register" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label><b>First Name </b></label>
+            <input type="text" class="form-control" name="first_name" placeholder="first name" />
+            <label><b>Last Name </b></label>
+            <input type="text" class="form-control" name="last_name" placeholder="last name " />
+        </div>
+        <div class="form-group">
+            <label><b>Username</b></label>
+            <input type="text" class="form-control" name="username" placeholder="username"/>
+            <label><b>E-mail</b></label>
+            <input type="text" class="form-control" name="email" placeholder="email"/>
+        </div>
+        
+        <div class="form-group">
+            <label><b>Enter Password</b></label>
+            <input type="password" class="form-control" name="password" placeholder="" />
+            <label><b>Confirm Password</b></label>
+            <input type="password" class="form-control" name="conf_password" placeholder=""/>
+        </div>
+        <div class="form-group">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <label class="text-danger" style="padding: 1%;">{{message}}</label>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">SignUp</button>
+            <label style="padding-left: 25%;">Already have an account?</label>
+            <a href="login" class="btn btn-secondary">Sign in</a>
+        </div>
+    </form>
+{% endblock %}

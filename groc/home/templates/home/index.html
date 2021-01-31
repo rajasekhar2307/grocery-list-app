@@ -1,0 +1,99 @@
+{% extends "home/base.html" %}
+{% block header %}
+<title>Home</title>
+    <div class="col-lg-7">
+        <h1>Your Grocery List</h1>
+    </div>
+    <div class="col-lg-5 float-right">
+        <div class="row">
+            
+            <form action="filter" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="filter" style="float: right"  class="btn btn-danger" />
+                    <div style="overflow: hidden; padding-right: .5em;">
+                    <input type="date" name="date" class="form-control" style="width: 100%;" />
+                    </div>
+            </form>
+            
+            
+            <div class="col-lg-3">
+                <a href="add"><input type="submit" class="btn btn-primary" value="Add Items"></a>
+            </div>
+            <div class="col-lg-2">
+                <a href="/"><input type="submit" class="btn btn-primary" value="View All"></a>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row mt-4">
+        <!--- -->
+        <!-- Loop This -->
+        {% if user.is_authenticated %}
+        {% if groceries|length %}
+            {% for grocery in groceries %}
+            
+                <div class="col-lg-4" style="padding-top: 2%;">
+                    <div class="card shadow p-3 mb-5 bg-white rounded" >
+                        <div class="card-body">
+                        <h5 class="card-title">{{grocery.name}} </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{grocery.quantity}}.</h6>
+                        {% if grocery.status == 0 %}
+                            <p class="text-info">PENDING</p>
+                        {% elif grocery.status == 1 %}
+                            <p class="text-success">BOUGHT</p>
+                        {% elif grocery.status == 2 %}
+                            <p class="text-danger">NOT AVAILABLE</p>
+                        {% endif %}
+                        <p style="color:purple;">Id: {{grocery.id}}</p>
+                        <a href="update">Update</a>
+                        <a href="delete" style="margin-left: 50% ">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            
+            {% endfor %}
+            {% else %}
+            <div class="container text-center" style="padding-top: 15%;">
+                <div class="form-group">
+                    {% for message in messages %}
+                        {% if message.tags == 'info' %}
+                            <h5><label class="text-success" style="padding: 1%;">{{message}}</label></h5>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <h1>Start Adding now!</h1>
+                
+                <div class="col-lg-6 mx-auto" style="padding-top: 7%;">
+                    
+                        
+                            <a href="add"><button class="btn btn-secondary justify-content-center">Add Items</button></a>
+                       
+                    
+                 </div>
+            </div>
+            {% endif %}
+        {% else %}
+                <div class="container text-center" style="padding-top: 15%;">
+                    <h1>A Web Application to make list of Grocery Items!</h1>
+                    <h2>Login or SignUp to Get Started.</h2>
+                    <div class="col-lg-6 mx-auto" style="padding-top: 7%;">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="users/login"><button class="btn btn-secondary">Login</button></a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="users/register"><button class="btn btn-warning">SignUp</button></a>
+                            </div>
+                        </div>
+                     </div>
+
+
+                </div>
+        {% endif %}
+        
+    </div>
+{% endblock %}
